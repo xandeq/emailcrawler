@@ -5,9 +5,18 @@ from bs4 import BeautifulSoup
 import time
 import os
 
-def extract_emails(text):
-    """Extrai e-mails de um texto"""
-    return set(re.findall(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text))
+def extract_emails(text, soup):
+    """Extrai e-mails do texto da página e de links mailto:"""
+    emails = set(re.findall(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text))
+
+    # Captura e-mails dentro de mailto:
+    mailto_links = soup.select("a[href^=mailto]")
+    for link in mailto_links:
+        email = link.get("href").replace("mailto:", "").split("?")[0]  # Remove "mailto:" e parâmetros extras
+        if email:
+            emails.add(email)
+
+    return emails
 
 def get_emails_from_url(url):
     """Acessa um site e busca e-mails na primeira página"""
@@ -21,7 +30,7 @@ def get_emails_from_url(url):
 
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        emails = extract_emails(soup.get_text())
+        emails = extract_emails(soup.get_text(), soup)
         return emails
     except requests.RequestException as e:
         print(f"❌ Erro ao acessar {url}: {e}")
