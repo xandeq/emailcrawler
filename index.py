@@ -45,14 +45,11 @@ def save_email(email):
             f.write(email + "\n")
         print(f"✅ E-mail salvo: {email}")
 
-def search_and_scrape_emails(query, num_results=50):
-    """Faz a busca no Google e extrai e-mails dos sites encontrados"""
-    found_emails = set()
-    
-    while True:  # 🔄 Loop infinito
-        print("\n🔎 Nova rodada de buscas no Google...")
-        
-        # Buscar mais resultados para simular múltiplas páginas
+def search_and_scrape_emails(queries, num_results=50):
+    """Executa a busca no Google para cada query e extrai e-mails"""
+    for query in queries:
+        print(f"\n🔎 Iniciando busca para: {query}")
+
         for url in search(query, num_results=num_results):
             if not url.startswith("http"):
                 print(f"⚠️ URL inválida ignorada: {url}")
@@ -60,9 +57,7 @@ def search_and_scrape_emails(query, num_results=50):
             
             print(f"🔍 Acessando: {url}")
             emails = get_emails_from_url(url)
-            found_emails.update(emails)
 
-            # Salvar os e-mails no arquivo
             if emails:
                 print("\n📧 Novos e-mails encontrados:")
                 for email in emails:
@@ -71,11 +66,25 @@ def search_and_scrape_emails(query, num_results=50):
 
             time.sleep(4)  # Espera 4 segundos para evitar bloqueios
         
-        print("\n⏳ Aguardando 60 segundos antes de rodar novamente...")
-        time.sleep(60)  # Espera 1 minuto antes de recomeçar a busca
+        print(f"\n⏳ Concluída a busca para '{query}'. Aguardando 60 segundos antes de iniciar a próxima busca...\n")
+        time.sleep(60)  # Espera 1 minuto antes de começar a próxima busca
 
-    return found_emails  # Nunca será alcançado devido ao loop infinito
+    print("\n✅ Todas as buscas foram concluídas. Programa finalizado.")
 
-# Palavra-chave para busca
-query = "pousada em arraial dajuda ba"
-emails = search_and_scrape_emails(query, num_results=50)
+# Lista de palavras-chave para busca
+queries = [
+    "pousada em arraial d'ajuda ba",
+    "pousada em trancoso ba",
+    "pousada em caraiva ba",
+    "pousada em porto seguro ba",
+    "pousada em itacaré ba",
+    "pousada em ilhéus ba",
+    "pousada em morro de são paulo ba",
+    "pousada em praia do forte ba",
+    "pousada em imbassaí ba",
+    "pousada em guarajuba ba",
+    "pousada em imbassaí ba",
+]
+
+# Executar as buscas para todas as queries
+search_and_scrape_emails(queries, num_results=50)
