@@ -82,17 +82,12 @@ def search_and_scrape_emails(queries, num_results=50):
 
 # Lista de palavras-chave para busca
 queries = [
-    "pousada em arraial d'ajuda ba",
-    "pousada em trancoso ba",
-    "pousada em caraiva ba",
-    "pousada em porto seguro ba",
-    "pousada em itacaré ba",
-    "pousada em ilhéus ba",
-    "pousada em morro de são paulo ba",
-    "pousada em praia do forte ba",
-    "pousada em imbassaí ba",
-    "pousada em guarajuba ba",
-    "pousada em imbassaí ba",
+    "pousada em guriri es",
+    "pousada em conceição da barra es",
+    "pousada em itaunas es",
+    "pousada em itaúnas es",
+    "pousada em riacho doce es",
+    "pousada em costa dourada ba",
 ]
 
 # Executar as buscas para todas as queries
